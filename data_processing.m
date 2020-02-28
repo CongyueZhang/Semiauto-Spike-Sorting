@@ -1,3 +1,5 @@
+addpath('.\Functions');
+addpath('.\MyFunctions');
 path = 'E:\³¬Éù´Ì¼¤\US RECORD\12_24\E1_processing\';
 [X_old,USindex,ESindex] = dataLoad(path);
 
