@@ -1,5 +1,5 @@
-function sorting_visualization(idx1,spikes,features)
-
+function sorting_visualization(path,idx1,spikes,features)
+f = figure;
 spikes_length = size(spikes,1);
 spikes_max = max(features(:,3));
 spikes_min = min(features(:,5));
@@ -15,5 +15,9 @@ for i = 2:n
     hold on;
 end
 xlabel('分类结果');
+
+DirectoryPath =[path '/Result/Image'];
+whereToStore=fullfile(DirectoryPath,'分类结果.png');
+saveas(f,whereToStore);
 
 end

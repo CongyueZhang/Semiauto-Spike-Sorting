@@ -1,4 +1,4 @@
-function frequency_visualization(idx2,idx3,spikes_2,spikes_3,spike_indexes_2,spike_indexes_3,abnormal_indexes,length,USindex,ESindex)
+function frequency_visualization(path,idx2,idx3,spikes_2,spikes_3,spike_indexes_2,spike_indexes_3,abnormal_indexes,length,USindex,ESindex)
 
 %%  总体放电频率图
 %n = max(idx1);
@@ -31,15 +31,20 @@ for i = 2:1:n
         n_index = find(spike_indexes_2(thisIndex)/10^4>=j & spike_indexes_2(thisIndex)/10^4<j+step);
         n_number = [n_number;size(n_index,1)];
     end
-    figure;
+    f = figure;
     subplot(2,1,1);
     plot(spikes_2(:,thisIndex),'color',colors(i,:));
     axis([0 spikes_length2 min(min(spikes_2(:,thisIndex))) max(max(spikes_2(:,thisIndex)))]);
     subplot(2,1,2);
-    plot(x,n_number);
-    trigger_visualization(USindex,ESindex,0,max(n_number));
-    axis([0 length/10^4 0 max(n_number)]);
+    frequency = n_number/step;
+    plot(x,frequency);
+    trigger_visualization(USindex,ESindex,0,max(frequency));
+    axis([0 length/10^4 0 max(frequency)]);
     xlabel('放电频率图（次/2s）');
+
+    DirectoryPath =[path '/Result/Image'];
+    whereToStore=fullfile(DirectoryPath,['第' num2str(i-1) '根纤维的放电频率.png']);
+    saveas(f,whereToStore);
 
     %延时标注
     %for j = 1:size(USindex,2)

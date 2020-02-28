@@ -3,10 +3,11 @@ function [X,USindex,ESindex] = dataLoad(path)
 X = [];
 USindex = [];
 ESindex = [];
-files1 = dir(fullfile(path,'*.abf'));
-xlsfiles={files1.name};
-[~,idx]=sort(xlsfiles);
-files = files1(idx);
+files = dir(fullfile(path,'*.abf'));
+%按名称排序
+%xlsfiles={files1.name};
+%[~,idx]=sort(xlsfiles);
+%files = files1(idx);
 
 for file = files'                                                       %遍历path目录下的.abf文件
     file_info = split(file.name,'_');

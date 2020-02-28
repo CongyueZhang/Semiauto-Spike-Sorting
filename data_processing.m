@@ -10,7 +10,7 @@ fprintf('\n\n进行预处理操作\n\n');
 %alpha = 37;        %12_24 E3参数
 alpha = 8;        %12_24 E1参数
 [X,length,Max,Min,mu] = preprocessing(X_old,step,alpha);    %调用预处理
-preprocessing_visualization(X_old,X,length,USindex,ESindex,Max,Min,mu);
+preprocessing_visualization(path,X_old,X,length,USindex,ESindex,Max,Min,mu);
 
 %% ================== Part 2: Spikes detection ===================
 t = 9;   %spike的长度，单位ms
@@ -19,7 +19,6 @@ n = 25;
 %spikes_visualization(spikes,n);
 
 %% ================== Part 3: Spikes sorting ===================
-figure;
 idx2 = [];
 idx3 = [];
 if isempty(features_2) == 0
@@ -47,7 +46,7 @@ features_2(:,6) = 1.6*features_2(:,6);
 idx2 = DBSCAN(features_2,2.5,4);      %12_24 E1
 
 idx2 = idx2 + 1;
-sorting_visualization(idx2,spikes_2,features_old);
+sorting_visualization(path,idx2,spikes_2,features_old);
 end
 
 
@@ -68,7 +67,7 @@ sorting_visualization(idx1,spikes_3,features_old);
 end
 
 
-frequency_visualization(idx2,idx3,spikes_2,spikes_3,spike_indexes_2,spike_indexes_3,abnormal_indexes,length,USindex,ESindex);
+frequency_visualization(path,idx2,idx3,spikes_2,spikes_3,spike_indexes_2,spike_indexes_3,abnormal_indexes,length,USindex,ESindex);
 
 
 %Max = 0;
