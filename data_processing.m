@@ -1,7 +1,10 @@
 addpath('.\Functions');
 addpath('.\MyFunctions');
-path = 'E:\超声刺激\US RECORD\12_24\E1_processing\';
+path = 'E:\超声刺激\US RECORD\12_28\E1_processing\';
 [X_old,USindex,ESindex] = dataLoad(path);
+
+%global parameters
+%parameters =[];
 
 %% ================== Part 1: Preprocessing ===================
 step = 100;    %step
@@ -14,9 +17,13 @@ alpha = 8;        %12_24 E1参数
 [X,length,Max,Min,mu] = preprocessing(X_old,step,alpha);    %调用预处理
 preprocessing_visualization(path,X_old,X,length,USindex,ESindex,Max,Min,mu);
 
-%% ================== Part 2: Spikes detection ===================
+%test
+ecdf(X);
+
+%% ================== Part 2: Spikes detection & Feature Extraction===================
 t = 9;   %spike的长度，单位ms
-[spikes_2,spikes_3,spike_indexes_2,spike_indexes_3,abnormal_indexes,features_2,features_3,abnormal_spikes,abnormal_features] = spikedetection(X,t*10,Max,Min);
+%[data.waveforms,data.spiketimes,features_2,features_3,abnormal_spikes,abnormal_features] = spikedetection(X,t*10,Max,Min);
+
 n = 25;
 %spikes_visualization(spikes,n);
 
@@ -48,7 +55,7 @@ features_2(:,6) = 1.6*features_2(:,6);
 idx2 = DBSCAN(features_2,2.5,4);      %12_24 E1
 
 idx2 = idx2 + 1;
-sorting_visualization(path,idx2,spikes_2,features_old);
+%sorting_visualization(path,idx2,data.waveforms,features_old);
 end
 
 
@@ -65,11 +72,11 @@ features_3(:,5) = alpha*features_3(:,5);
 %[clustCent,idx1,cluster2dataCell] = MeanShiftCluster(features',2);
 idx3 = DBSCAN(features_3,1,4);
 idx3 = idx3 + 1;
-sorting_visualization(idx1,spikes_3,features_old);
+%sorting_visualization(idx1,spikes_3,features_old);
 end
 
 
-frequency_visualization(path,idx2,idx3,spikes_2,spikes_3,spike_indexes_2,spike_indexes_3,abnormal_indexes,length,USindex,ESindex);
+%frequency_visualization(path,idx2,idx3,data.waveforms,spikes_3,data.spiketimes,spike_indexes_3,abnormal_indexes,length,USindex,ESindex);
 
 
 %Max = 0;

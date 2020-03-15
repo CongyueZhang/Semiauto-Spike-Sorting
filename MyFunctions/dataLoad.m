@@ -12,6 +12,7 @@ files = dir(fullfile(path,'*.abf'));
 for file = files'                                                       %遍历path目录下的.abf文件
     file_info = split(file.name,'_');
     abf1 = abfload(strcat(path,file.name),'channels',{'IN 0'});     
+    
     if strcmp(char(file_info(2,1)),'US')
         %USindex = [USindex;size(X_old,1)+1000;];
         
@@ -42,9 +43,9 @@ for file = files'                                                       %遍历pat
             %tUS = [tUS;abfUS(:,:,i)];
             %tempUSIndex = size(X,1) +i*size(abf1,1) + find(tUS>0.5);
             tempUSIndex = size(X,1) +2*i*size(abf1,1) + 2 * find(abfUS(:,:,i)>0.5);%插值
-            if size(tempUSIndex,1)>1010
-                tempUSIndex = tempUSIndex(1:1010);
-            end
+            %if size(tempUSIndex,1)<1500
+                %tempUSIndex = tempUSIndex(1:1010);
+            %end
             USindex = [USindex tempUSIndex];
         end
         
@@ -63,7 +64,7 @@ for file = files'                                                       %遍历pat
     
     if strcmp(char(file_info(2,1)),'ES.abf')
         %USindex = [USindex;size(X_old,1)+1000;]; 
-        ESperiod = min(find(abf1>0.1));
+        ESperiod = find(abf1>0.1, 1 );
         tempESindex = size(X,1) + ESperiod;
         ESindex = [ESindex tempESindex];
         continue
