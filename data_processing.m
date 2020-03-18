@@ -1,95 +1,37 @@
+%读取数据
 addpath('.\Functions');
 addpath('.\MyFunctions');
-path = 'E:\超声刺激\US RECORD\12_28\E1_processing\';
-[X_old,USindex,ESindex] = dataLoad(path);
 
-%global parameters
-%parameters =[];
+path = 'E:\超声刺激\US RECORD\12_28\E2_processing\';
+
+[X_old,USindex,ESindex] = dataLoad(path);       %读取数据，详见dataLoad Function
+
+global parameters
+parameters =[];
+
+data.waveforms = [];
+data.spiketimes = [];
 
 %% ================== Part 1: Preprocessing ===================
-step = 100;    %step
-fprintf('\n\n进行预处理操作\n\n');
-%alpha = 1/2.5;     %E1参数
-%alpha = 1.5;       %E2参数
-%alpha = 2.3;        %12_24 E2参数
-%alpha = 37;        %12_24 E3参数
-alpha = 8;        %12_24 E1参数
-[X,length,Max,Min,mu] = preprocessing(X_old,step,alpha);    %调用预处理
-preprocessing_visualization(path,X_old,X,length,USindex,ESindex,Max,Min,mu);
+step = 500;    %step
+fprintf('\n\nPreprocessing Loading ...\n');
 
-%test
-ecdf(X);
+k = 4;
+[X,parameters] = preprocessing(X_old,step,parameters,k);    %调用预处理
+preprocessing_visualization(path,X_old,X,parameters,USindex,ESindex);    
 
-%% ================== Part 2: Spikes detection & Feature Extraction===================
+%% ================== Part 2: Spikes detection ===================
+fprintf('\n\nSpikes detectiong Loading ...\n');
 t = 9;   %spike的长度，单位ms
-%[data.waveforms,data.spiketimes,features_2,features_3,abnormal_spikes,abnormal_features] = spikedetection(X,t*10,Max,Min);
+[data] = spikedetection(X,t*10,parameters,data);
 
-n = 25;
-%spikes_visualization(spikes,n);
+%n = 25;
+%spikes_visualization(X,data,n,parameters);        
 
-%% ================== Part 3: Spikes sorting ===================
-idx2 = [];
-idx3 = [];
-if isempty(features_2) == 0
+%% ================== Part 3: Feature Extraction ===================
+[features] = featureExtraction(data,parameters);
 
-features_old = features_2;
-%scale
-v = max(max(features_2(:,3)),max(features_2(:,5)));
-%v = max(max(features(:,1)));
+%% ================== Part 4: Spikes sorting ===================
+%clusterSorting(features,data,parameters);
 
-%alpha = t*10/3/v;  %E1
-%alpha = t*10/3/v;  %E2
-%alpha = t*10/2/v;   %12_24  E2  E3
-alpha = t*10/0.9/v;   %12_24  E1
-
-features_2(:,3) = alpha/2*features_2(:,3);
-%features_2(:,5) = 1.5*alpha*features_2(:,5);    %E1 E2
-features_2(:,5) = alpha*features_2(:,5);    %12_24 E1 E2 E3
-%features_2(:,6) = 6*features_2(:,6);   %E1 E2
-features_2(:,6) = 1.6*features_2(:,6);
-
-%[clustCent,idx1,cluster2dataCell] = MeanShiftCluster(features',2);
-%idx2 = DBSCAN(features_2,0.8,6);    %E1
-%idx2 = DBSCAN(features_2,1,6);     %E2
-%idx2 = DBSCAN(features_2,1.2,4);      %12_24 E2 E3
-idx2 = DBSCAN(features_2,2.5,4);      %12_24 E1
-
-idx2 = idx2 + 1;
-%sorting_visualization(path,idx2,data.waveforms,features_old);
-end
-
-
-if isempty(features_3) == 0
-
-features_old = features_3;
-%scale
-v = max(max(features_3(:,3)),max(features_3(:,5)));
-%v = max(max(features(:,1)));
-features_3(:,3) = alpha*features_3(:,3);
-features_3(:,5) = alpha*features_3(:,5);
-%features_2(:,5) = features_2(:,5);
-
-%[clustCent,idx1,cluster2dataCell] = MeanShiftCluster(features',2);
-idx3 = DBSCAN(features_3,1,4);
-idx3 = idx3 + 1;
-%sorting_visualization(idx1,spikes_3,features_old);
-end
-
-
-%frequency_visualization(path,idx2,idx3,data.waveforms,spikes_3,data.spiketimes,spike_indexes_3,abnormal_indexes,length,USindex,ESindex);
-
-
-%Max = 0;
-%for i = 1:n
-%    n_index1 = find(idx1 == i);
-%    if features(n_index1(1),1)>Max
-%        Max = n_max;
-%    end
-%end
-
-%for i = 1:n
-%    n_index1 = find(idx1 == i);
-%    if features(n_index1(1),1)<Max/3
-%        idx1(n_index1) = n+1;
-%    end
-%end
+%frequency_visualization(path,data,idx,parameters,USindex,ESindex);

@@ -1,44 +1,30 @@
-function [X,length,Max,Min,mu] = preprocessing(X,m,alpha)
+function [X,parameters] = preprocessing(X,step,parameters,k)
 %% ================== Part 1: 长度截取 ===================
-length = size(X,1);
-length = length - rem(length,m);  
-X = X(1:length);                                    %将X的长度截取成m的倍数
-%X = X(1:5000); 
+parameters.length = size(X,1);
+parameters.length = parameters.length - rem(parameters.length,step);  
+X = X(1:parameters.length);                                    %将X的长度截取成m的倍数
 %% ================== Part 2: 基线校正 ===================
-for i = 1 : m : length-m+1
-    x = X(i:i+m-1);
+for i = 1 : step : parameters.length-step+1
+    x = X(i:i+step-1);
     avg = median(x);
-    X(i:i+m-1) = bsxfun(@minus,x,avg);              
+    X(i:i+step-1) = bsxfun(@minus,x,avg);              
 end
 
+
+%滤波代码
 %d1 = designfilt('bandpassiir','FilterOrder',20, ...
 %         'HalfPowerFrequency1',50,'HalfPowerFrequency2',700,'SampleRate',10000);
 %X = filtfilt(d1,X);
 
 
-%X=ms_bandpass_filter(X,struct('samplerate',10000,'freq_min',100,'freq_max',600,'width_max',500));
+%X=ms_bandpass_filter(X,struct('samplerate',10000,'freq_parameters.floor',100,'freq_parameters.ceil',600,'width_parameters.ceil',500));
 
 %% ================== Part 3: 阈值提取 ===================
-[p,value] = histcounts(X);
-[~,mu_index] = max(p);
-mu = value(mu_index);
-sigma = var(value);
-Max = mu+sigma*alpha;
-Min = mu-sigma*alpha;
-
-%[p1,value1] = histcounts(X);
-%[A,mu1_index] = max(p1);
-%mu1 = value1(mu1_index)
-%sigma1 = var(value1)
-%Max1 = mu1+sigma1/alpha;
-%Min1 = mu1-sigma1/alpha;
-%zero_index = find(X>Min1 & X<Max1);
-
-%X(zero_index) = mu1;
-%subplot(3,1,3);
-%plot(X);
-%axis([0 length -0.3 0.3]);
-%xlabel('基线去噪后选出的信号');
-
+%[p,value] = histcounts(X);
+%[~,midline_index] = max(p);
+parameters.midline = 0;
+sigma = median(abs(X))/0.6745;
+parameters.ceil = parameters.midline+k*sigma;
+parameters.floor = parameters.midline-k*sigma;
 
 end

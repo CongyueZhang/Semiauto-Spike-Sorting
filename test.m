@@ -22,6 +22,6 @@ preprocessing_visualization(path,X_old,X,length,USindex,ESindex,Max,Min,mu);
 %figure;
 %histogram(X);
 
-figure
-[f,t] = ecdf(X);
-plot(t,f);
+%figure
+%[f,t] = ecdf(X);
+%plot(t,f);
