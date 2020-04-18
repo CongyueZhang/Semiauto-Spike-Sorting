@@ -19,6 +19,7 @@ xlabel('放电频率图（次/2s）');
 
 %% 分类后的放电频率图
 
+%{
 n = max(idx);
 colors = distinguishable_colors(n,'w');
 spikes_length = size(data.waveforms,1);
@@ -44,6 +45,7 @@ for i = 2:1:n
     whereToStore=fullfile(DirectoryPath,['第' num2str(i-1) '根纤维的放电频率.png']);
     saveas(f,whereToStore);
 
+    
     %延时标注
     %for j = 1:size(USindex,2)
     %    US_firstIndex = USindex(1,j);
@@ -64,7 +66,7 @@ for i = 2:1:n
     %    txt = ['delay:' num2str(double(double(first_index)-double(US_firstIndex))) 's'];
     %    text(double(first_index),max(n_number)/2,txt)
     %end
-   
+
 end
 
 %figure
@@ -72,5 +74,5 @@ end
 %    thisIndex = find(idx2 == i);
 %    
 %end
-
+%}
 end

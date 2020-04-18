@@ -19,13 +19,15 @@ for file = files'                                                       %遍历pat
         %USindex = [USindex;size(X_old,1)+1000;];
         
         %插值
-        abf2 = abf;
-        t = 1.5:size(abf,1)+0.5;
-        abf3 = interp1(abf2,t,'spline');
-        for j = 2:2:2*size(abf,1)
-            abf(j-1) = abf2(j/2);
-            abf(j) = abf3(j/2);
-        end
+        %abf2 = abf;
+        t1 = (1:size(abf,1))';
+        t2 = (1:0.5:size(abf,1)+0.5)';
+        %abf3 = interp1(abf2,t,'spline');
+        abf = interp1(t1,abf,t2,'spline');
+        %for j = 2:2:2*size(abf,1)
+        %    abf(j-1) = abf2(j/2);
+        %    abf(j) = abf3(j/2);
+        %end
         
         abfUS = abfload(strcat(path,file.name),'channels',{'IN 5'});    
         %USperiod = find(abfUS>0.5);                             %找到IN 5通道幅值>0.5的点在其文件中的坐标
@@ -54,13 +56,17 @@ for file = files'                                                       %遍历pat
         abf = t1;
         
         %插值
-        abf2 = abf;
-        t = 1.5:size(abf,1)+0.5;
-        abf3 = interp1(abf2,t,'spline');
-        for j = 2:2:2*size(abf,1)
-            abf(j-1) = abf2(j/2);
-            abf(j) = abf3(j/2);
-        end
+        %abf2 = abf;
+        %t = 1.5:size(abf,1)+0.5;
+        %abf3 = interp1(abf2,t,'spline');
+        %for j = 2:2:2*size(abf,1)
+        %    abf(j-1) = abf2(j/2);
+        %    abf(j) = abf3(j/2);
+        %end
+        t1 = (1:size(abf,1))';
+        t2 = (1:0.5:size(abf,1)+0.5)';
+        %abf3 = interp1(abf2,t,'spline');
+        abf = interp1(t1,abf,t2,'spline');
         
     end
     
