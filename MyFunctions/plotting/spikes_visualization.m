@@ -1,5 +1,10 @@
-function spikes_visualization(X,data,parameters,option)
-%% 将spikes标红
+function spikes_visualization(option)
+% option ~= 0 时，在data中标红cluster option
+% option == 0 时，在data中标红所有spikes
+%% 将spikes在data中标红
+global parameters;
+global data;
+global X;
 figure;
 t = (0.0001:0.0001:parameters.length/10^4);
 plot(t,X);
@@ -7,41 +12,26 @@ hold on;
 plot(t,parameters.ceil * ones(parameters.length,1),'magenta');
 hold on;
 plot(t,parameters.floor * ones(parameters.length,1),'magenta');
+hold on;
+trigger_visualization(data.USindex,data.ESindex,min(X),max(X));
+hold on;
 t = double(data.spiketimes)/10000;
 
-if option
-    for i = 1:1:size(data.spiketimes,1)
-        hold on;
-        plot(t(:,i),data.waveforms(:,i),'r');
-    end
+if option           %标红cluster option
+    plot(t(data.idx == option,:)',data.waveforms(data.idx == option,:)','r');
     axis([0 parameters.length/10^4 min(X) max(X)]);
     title('基线校正后的信号');
     xlabel('Time(s)');
     ylabel('Voltage(mV)')
-else
-    index = data.idx == option;
-    for i = 1:1:size(data.spiketimes(index),1)
+else                %标红所有cluster
+    for i = 1:1:size(data.spiketimes,1)
         hold on;
-        plot(t(:,i),data.waveforms(:,i),'r');
+        plot(t(i,:),data.waveforms(i,:),'r');
     end
     axis([0 parameters.length/10^4 min(X) max(X)]);
     title('基线校正后的信号');
     xlabel('Time(s)');
     ylabel('Voltage(mV)')
 end
-
-%% 随机展示n个
-%sel = randperm(size(spikes,2));
-%sel = sel(1:n);
-%figure;
-%spikes_length = size(spikes,1);
-%for i = 1:n
-%subplot(n^0.5,n^0.5,i);
-%plot(spikes(:,sel(i)));
-%axis([0 spikes_length min(spikes(:,sel(i))) max(spikes(:,sel(i)))]);
-%if i == 23
-%    xlabel( '随机选出25个波形展示');
-%end
-%end
 
 end
