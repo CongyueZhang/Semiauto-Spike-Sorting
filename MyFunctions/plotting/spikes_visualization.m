@@ -7,10 +7,10 @@ hold on;
 plot(t,parameters.ceil * ones(parameters.length,1),'magenta');
 hold on;
 plot(t,parameters.floor * ones(parameters.length,1),'magenta');
+t = double(data.spiketimes)/10000;
 
 if option
-    t = double(data.spiketimes)/10000;
-    for i = 1:1:size(data.spiketimes,2)
+    for i = 1:1:size(data.spiketimes,1)
         hold on;
         plot(t(:,i),data.waveforms(:,i),'r');
     end
@@ -19,7 +19,8 @@ if option
     xlabel('Time(s)');
     ylabel('Voltage(mV)')
 else
-    for i = 1:1:size(data.spiketimes,2)
+    index = data.idx == option;
+    for i = 1:1:size(data.spiketimes(index),1)
         hold on;
         plot(t(:,i),data.waveforms(:,i),'r');
     end
