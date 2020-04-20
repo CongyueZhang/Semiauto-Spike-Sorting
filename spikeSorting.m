@@ -16,9 +16,9 @@ addpath('E:\³¬Éù´Ì¼¤\data processing\project\matlab\MyFunctions');
 addpath('E:\³¬Éù´Ì¼¤\data processing\project\matlab\MyFunctions\plotting');
 
 
-%path = [path '\']
+path = [path '\']
 
-path = 'E:\³¬Éù´Ì¼¤\US RECORD\12_28\E1_processing\';
+%path = 'E:\³¬Éù´Ì¼¤\US RECORD\12_28\E1_processing\';
 
 [X_old,data.USindex,data.ESindex] = dataLoad(path);       %¶ÁÈ¡Êý¾Ý£¬Ïê¼ûdataLoad Function
 
