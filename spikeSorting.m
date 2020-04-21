@@ -8,6 +8,7 @@ data.waveforms = [];
 data.spiketimes = [];
 data.abnormalWaveforms = [];
 data.abnormalSpiketimes = [];
+data.features = [];
 parameters =[];
 
 %读取数据
@@ -43,8 +44,8 @@ k = 5;
 
 %% ================== Part 2: Spikes detection ===================
 fprintf('\n\nSpikes detectiong Loading ...\n');
-t = 9;              %spike的长度，单位ms
-ratio = 1/10;        %最高峰时间坐标的比例 
+t = 11;              %spike的长度，单位ms
+ratio = 1/3;        %最高峰时间坐标的比例 
 
 spikedetection(X,t*10,parameters,ratio);
 

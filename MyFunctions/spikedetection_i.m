@@ -1,12 +1,7 @@
-function spikedetection(X,t,parameters,ratio)
+function spikedetection_i(X,t,parameters,ratio)
 global data;
 %此算法假设噪声全在阈值里，没有考虑噪声意外超出阈值的情况
-%以最低点为定标
-
-%待考虑问题：
-%①前方是否有overlapping? min_index是否会取到前方overlapping的点？
-%②i的新值是否大于原值？（否则会死循环）
-
+%以第一个超出阈值的点为固定点
 
 i = t;
 end_index = parameters.length - int32(1.5 * t) - 1;
@@ -18,14 +13,8 @@ end_index = parameters.length - int32(1.5 * t) - 1;
 %阈值搜索
 while i < end_index
     if(X(i)<=parameters.floor || X(i)>=parameters.ceil)                                       %超出噪声范围，说明附近有信号
-        firstIndex_min = i - ratio*t;
-        lastIndex_min = i + ratio*t;
-        
-        [~,min_index] = min(X(firstIndex_min:lastIndex_min));
-        min_index = firstIndex_min + min_index;
-        firstIndex = min_index - ratio*t;
-        lastIndex = min_index + ratio*t;
-        
+        firstIndex = i - int32(ratio * t);
+        lastIndex = i + t - int32(ratio * t);
         %多通道
         %if ~isempty(spiketime)                        %避免重复
         %单通道
@@ -40,8 +29,8 @@ while i < end_index
             
             LastSpikeIndex = data.spiketimes(end,end);
             if firstIndex < LastSpikeIndex
-                firstIndex = firstIndex - t;
-                lastIndex = firstIndex + int32(0.5 * t);
+                firstIndex = firstIndex - int32(0.5 * t);
+                lastIndex = i - int32(ratio * t) + int32(0.5 * t);
                 spike = X((firstIndex:lastIndex),1);
                 spikeIndex = (firstIndex:1:lastIndex); 
                 data.abnormalSpiketimes = [data.abnormalSpiketimes;spikeIndex];
@@ -53,8 +42,8 @@ while i < end_index
             end
             
             if (X(firstIndex)<parameters.floor || X(firstIndex)>parameters.ceil) && (X(firstIndex+1)<parameters.floor || X(firstIndex+1)>parameters.ceil)
-                firstIndex = firstIndex - t;
-                lastIndex = firstIndex + int32(0.5 * t);
+                firstIndex = firstIndex - int32(0.5 * t);
+                lastIndex = i - int32(ratio * t) + int32(0.5 * t);
                 spike = X((firstIndex:lastIndex),1);
                 spikeIndex = (firstIndex:1:lastIndex); 
                 data.abnormalSpiketimes = [data.abnormalSpiketimes;spikeIndex];
@@ -65,8 +54,6 @@ while i < end_index
                 continue;
             end
         end
-        
-        
         spike = X((firstIndex:lastIndex),1);
         
         spikeIndex = (firstIndex:1:lastIndex);     %全部点
