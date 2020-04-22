@@ -35,8 +35,8 @@ while i < end_index
             
             LastSpikeIndex = data.spiketimes(end,end);
             if firstIndex_min < LastSpikeIndex
-                firstIndex_min = firstIndex_min - 0.5 * t;
-                lastIndex_min = lastIndex_min;
+                firstIndex_min = firstIndex_min - 0.5t;
+                lastIndex_min = firstIndex_min + int32(0.5 * t);
                 spike = X((firstIndex_min:lastIndex_min),1);
                 spikeIndex = (firstIndex_min:1:lastIndex_min); 
                 data.abnormalSpiketimes = [data.abnormalSpiketimes;spikeIndex];
@@ -48,8 +48,8 @@ while i < end_index
             end
             
             if (X(firstIndex_min)<parameters.floor || X(firstIndex_min)>parameters.ceil) && (X(firstIndex_min+1)<parameters.floor || X(firstIndex_min+1)>parameters.ceil)
-                firstIndex_min = firstIndex_min - 0.5 * t;
-                lastIndex_min = lastIndex_min;
+                firstIndex_min = firstIndex_min - t;
+                lastIndex_min = firstIndex_min + int32(0.5 * t);
                 spike = X((firstIndex_min:lastIndex_min),1);
                 spikeIndex = (firstIndex_min:1:lastIndex_min); 
                 data.abnormalSpiketimes = [data.abnormalSpiketimes;spikeIndex];
@@ -77,8 +77,8 @@ while i < end_index
             
             LastSpikeIndex = data.spiketimes(end,end);
             if firstIndex < LastSpikeIndex
-                firstIndex = firstIndex - 0.5 * t;
-                lastIndex = lastIndex;
+                firstIndex = firstIndex - t;
+                lastIndex = firstIndex + int32(0.5 * t);
                 spike = X((firstIndex:lastIndex),1);
                 spikeIndex = (firstIndex:1:lastIndex); 
                 data.abnormalSpiketimes = [data.abnormalSpiketimes;spikeIndex];
@@ -90,8 +90,8 @@ while i < end_index
             end
             
             if (X(firstIndex)<parameters.floor || X(firstIndex)>parameters.ceil) && (X(firstIndex+1)<parameters.floor || X(firstIndex+1)>parameters.ceil)
-                firstIndex = firstIndex - 0.5 * t;
-                lastIndex = lastIndex;
+                firstIndex = firstIndex - t;
+                lastIndex = firstIndex + int32(0.5 * t);
                 spike = X((firstIndex:lastIndex),1);
                 spikeIndex = (firstIndex:1:lastIndex); 
                 data.abnormalSpiketimes = [data.abnormalSpiketimes;spikeIndex];
