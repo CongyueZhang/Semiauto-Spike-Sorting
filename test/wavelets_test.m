@@ -33,45 +33,56 @@ m = size(data.waveforms,2);
 t = 1:m;
 
 threshold = min(parameters.ceil,abs(parameters.floor));
-threshold = threshold/2;
+
 for i = 1 : size(data.waveforms,1)
     
     clf;
     [smooth,window] = smoothdata(data.waveforms(i,:),'gaussian');
     %[pkt,lct] = findpeaks(abs(smooth),'MinPeakHeight',threshold);
-    [pkt_high,lct_high] = findpeaks(smooth,'MinPeakDistance',40,'SortStr','descend','NPeaks',2);
-    [pkt_low,lct_low] = findpeaks(-smooth,'SortStr','descend','NPeaks',1);
+    maxValue = max(smooth);
+    minValue = min(smooth);
+    
+    %,'MinPeakProminence',(maxValue-minValue)*0.05
+    [pkt_high,lct_high,~,proms_high] = findpeaks(smooth,'MinPeakDistance',31,'SortStr','descend','NPeaks',2);
+    [pkt_low,lct_low,~,proms_low] = findpeaks(-smooth,'SortStr','descend','NPeaks',1);
     pkt = [pkt_high';-pkt_low'];       
     lct = [lct_high';lct_low'];
-    peaks = [lct pkt];      %每一行是一个点，第一列是坐标，第二列是大小
+    proms = [proms_high';proms_low']
+    peaks = [lct pkt proms];      %每一行是一个点，第一列是坐标，第二列是大小，第三列是极值高度
     peaks = sortrows(peaks);
-    
+ 
+
     [~,minPoint] = min(peaks(:,2));
-    minIndex = peaks(minPoint,1);
-    newThreshold = threshold/15;
-    tuneIndex = find(abs(smooth(minIndex:end)-median(smooth(minIndex:end)))<threshold/20,1) + minIndex;     %最小值后的转折点
+    %minIndex = peaks(minPoint,1);
+    %{
+    %找转折点
+    newThreshold = threshold/20;
+    %tuneIndex = find(abs(smooth(minIndex:end)-median(smooth(minIndex:end)))<threshold/20,1) + minIndex;     %最小值后的转折点
+    tuneIndex = find(abs(diff(smooth(minIndex+15:end)))<newThreshold,1) + minIndex+15;
     
     while isempty(tuneIndex)
         newThreshold = 1.3 * newThreshold;
-        tuneIndex = find(abs(smooth(minIndex:end)-median(smooth(minIndex:end)))<newThreshold,1) + minIndex;
+        %tuneIndex = find(abs(smooth(minIndex:end)-median(smooth(minIndex:end)))<newThreshold,1) + minIndex;
+        tuneIndex = find(abs(diff(smooth(minIndex+15:end)))<newThreshold,1);
     end
-    
+    %}
+
     if size(peaks,1) == 3        %找到了三个点
         if minPoint == 2        %如果最小值点在中间
-            if abs(peaks(3,2) - smooth(tuneIndex))<threshold/5        %如果转折点和第三个点差值很小
-                peaks(3,1) = tuneIndex;
-                peaks(3,2) = smooth(tuneIndex);
+            if peaks(3,3) < 0.15 * (maxValue-minValue)
+                peaks(3,:) = [];
             end
         end
     end
     
+ %{   
     if size(peaks,1) == 2       %找到两个点
         if minPoint == 2        %如果最小值点在后面
             peaks(3,1) = tuneIndex;
             peaks(3,2) = smooth(tuneIndex);
         end
     end
-    
+%}
     
     plot(t,data.waveforms(i,:),'-o',t,smooth,'-x');
     legend('Original Data','Smoothed Data')
