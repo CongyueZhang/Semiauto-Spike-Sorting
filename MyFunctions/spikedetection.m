@@ -1,9 +1,9 @@
 function spikedetection(X,t,parameters,ratio)
 global data;
 %此算法假设噪声全在阈值里，没有考虑噪声意外超出阈值的情况
-%以最低点为定标
+%以最低点为定标，最低点是data.waveforms(i,1+t*ratio);
 
-%待考虑问题：
+%需考虑问题：
 %①前方是否有overlapping? min_index是否会取到前方overlapping的点？
 %②i的新值是否大于原值？（否则会死循环）
 
@@ -63,7 +63,7 @@ while i < end_index
         
         [~,min_index] = min(X(firstIndex_min:lastIndex_min));
         min_index = firstIndex_min + min_index;
-        firstIndex = min_index - ratio*t;
+        firstIndex = min_index - ratio*t;           
         lastIndex = min_index + ratio*t;
         
         if ~isempty(data.spiketimes)    %Overlapping

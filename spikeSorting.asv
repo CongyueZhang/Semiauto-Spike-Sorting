@@ -44,8 +44,8 @@ k = 5;
 
 %% ================== Part 2: Spikes detection ===================
 fprintf('\n\nSpikes detectiong Loading ...\n');
-t = 10;              %spike的长度，单位ms
-ratio = 1/2;        %最高峰时间坐标的比例 
+t = 11;              %spike的长度，单位ms
+ratio = 1/3;        %最高峰时间坐标的比例 
 
 spikedetection(X,t*10,parameters,ratio);
 
