@@ -34,15 +34,9 @@ t = 1:m;
 
 threshold = min(parameters.ceil,abs(parameters.floor));
 
-%把最小值点当已知
-lct_low = 100*ratio;
-
 for i = 1 : size(data.waveforms,1)
     
     clf;
-     %{   
-    %没有把最小值点当已知
-    
     [smooth,window] = smoothdata(data.waveforms(i,:),'gaussian');
     %[pkt,lct] = findpeaks(abs(smooth),'MinPeakHeight',threshold);
     maxValue = max(smooth);
@@ -89,21 +83,6 @@ for i = 1 : size(data.waveforms,1)
         end
     end
 %}
-    %}
-    
-    %把最小值点当已知
-    smooth = smoothdata(data.waveforms(i,:),'gaussian');
-    maxValue = max(smooth);
-    minValue = min(smooth);
-    
-    [pkt_high1,lct_high1] = findpeaks(smooth(1:lct_low),'MinPeakProminence',(maxValue-minValue)*0.04,'NPeaks',1);
-    
-    [pkt_high2,lct_high2] = findpeaks(smooth(lct_low+1:end),'MinPeakProminence',(maxValue-minValue)*0.15,'MinPeakHeight',(maxValue+minValue)*0.35,'NPeaks',1);
-    
-    pkt = [data.waveforms(i,lct_high1);data.waveforms(i,lct_low);data.waveforms(i,lct_high2)];       
-    lct = [lct_high1;lct_low;lct_high2];
-    peaks = [lct pkt];      %每一行是一个点，第一列是坐标，第二列是大小；
-    
     
     plot(t,data.waveforms(i,:),'-o',t,smooth,'-x');
     legend('Original Data','Smoothed Data')
