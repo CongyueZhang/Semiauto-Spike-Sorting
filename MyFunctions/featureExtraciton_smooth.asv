@@ -1,27 +1,22 @@
-function [features] = featureExtraciton_smooth(t)
+function [features] = featureExtraciton_smooth()
     global data;
-    lct_low = t*ratio;
+    lct_low = 1+t*ratio;
 for i = 1 : size(data.waveforms,1)
     features = zeros(1,6);
     smooth = smoothdata(data.waveforms(i,:),'gaussian');
     maxValue = max(smooth);
     minValue = min(smooth);
     
-    data.features(i,3) = data.waveforms(i,lct_low);
-    
     [pkt_high1,lct_high1] = findpeaks(smooth(1:lct_low),'MinPeakProminence',(maxValue-minValue)*0.04,'NPeaks',1);
     
     if ~isempty(lct_high1)
-        data.features(i,1) = lct_high1;
-        data.features(i,2) = data.waveforms(i,lct_high1);
+        features(1) = lct_high1;
+        features(2) = data.waveforms(lct_high1);
     end
     
     [pkt_high2,lct_high2] = findpeaks(smooth(lct_low+1:end),'MinPeakProminence',(maxValue-minValue)*0.15,'MinPeakHeight',(maxValue+minValue)*0.35,'NPeaks',1);
     
-    if ~isempty(lct_high2)
-        data.features(i,4) = lct_high2;
-        data.features(i,5) = data.waveforms(i,lct_high2);
-    end
+    if ~isempty(lct_hi)
     
     pkt = [data.waveforms(i,lct_high1);data.waveforms(i,lct_low);data.waveforms(i,lct_high2)];       
     lct = [lct_high1;lct_low;lct_high2];

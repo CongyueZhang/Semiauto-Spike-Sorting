@@ -1,4 +1,4 @@
-function spikedetection(X,t,parameters,ratio)
+ function spikedetection(X,t,parameters,ratio)
 global data;
 %此算法假设噪声全在阈值里，没有考虑噪声意外超出阈值的情况
 %以最低点为定标，最低点是data.waveforms(i,1+t*ratio);

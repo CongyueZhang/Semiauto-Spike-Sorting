@@ -8,7 +8,6 @@ data.waveforms = [];
 data.spiketimes = [];
 data.abnormalWaveforms = [];
 data.abnormalSpiketimes = [];
-data.features = [];
 parameters =[];
 
 %¶ÁÈ¡Êı¾İ
@@ -53,7 +52,8 @@ spikedetection(X,t*10,parameters,ratio);
 %spikes_visualization(X,data,n,parameters);        
 
 %% ================== Part 3: Feature Extraction ===================
-%features = featureExtraction(data,parameters);
+%data.features = zeros(size(data.waveforms,1),5);
+%featureExtraction_smooth(t*10);
 
 %% ================== Part 4: Clustering ===================
 %clusterSorting(features,data,parameters);      
