@@ -1,4 +1,4 @@
-function [features] = featureExtraciton_smooth(t)
+function featureExtraciton_smooth(t,ratio)
     global data;
     lct_low = t*ratio;
 for i = 1 : size(data.waveforms,1)
@@ -8,7 +8,7 @@ for i = 1 : size(data.waveforms,1)
     minValue = min(smooth);
     
     data.features(i,3) = data.waveforms(i,lct_low);
-    
+
     [pkt_high1,lct_high1] = findpeaks(smooth(1:lct_low),'MinPeakProminence',(maxValue-minValue)*0.04,'NPeaks',1);
     
     if ~isempty(lct_high1)
@@ -28,6 +28,16 @@ for i = 1 : size(data.waveforms,1)
     peaks = [lct pkt];      %每一行是一个点，第一列是坐标，第二列是大小；
     
    
+end
+
+for i = 1:size(data.features,2)
+    index = data.features(:,i) ~= 0;
+    if ~isempty(index)
+        mu = mean(data.features(index,i));
+        data.features(:,i) = bsxfun(@minus, data.features(:,i), mu);
+        sigma = std(data.features(index,i));
+        data.features(:,i) = bsxfun(@rdivide, data.features(:,i), sigma);
+    end
 end
     
 end

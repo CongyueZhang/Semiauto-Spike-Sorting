@@ -1,16 +1,14 @@
-function RL_FCM
-X = xlsread(filename);
+function RL_FCM(X)
 er = 2.7182818;
 r1=1;
 r2=1;
 r3=1;
 t=1;
 tol = 1e-9;
-[nr nc] = size(X);
+[nr, nc] = size(X);
 for i = 1:nc
    for j = 1:nr
      data(j, i) = (X(j, i)-std(X(:, i)))/mean(X(:, i));
-    
    end
 end
 %data=X;

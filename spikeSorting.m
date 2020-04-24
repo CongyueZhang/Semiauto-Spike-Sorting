@@ -20,6 +20,8 @@ path = [path '\'];
 
 %path = 'E:\超声刺激\US RECORD\12_28\E1_processing\';
 
+warning('off','signal:findpeaks:largeMinPeakHeight');
+
 [X_old,data.USindex,data.ESindex] = dataLoad(path);       %读取数据，详见dataLoad Function
 
 
@@ -52,8 +54,8 @@ spikedetection(X,t*10,parameters,ratio);
 %spikes_visualization(X,data,n,parameters);        
 
 %% ================== Part 3: Feature Extraction ===================
-%data.features = zeros(size(data.waveforms,1),5);
-%featureExtraction_smooth(t*10);
+data.features = zeros(size(data.waveforms,1),5);
+featureExtraciton_smooth(t*10,ratio);
 
 %% ================== Part 4: Clustering ===================
 %clusterSorting(features,data,parameters);      
@@ -61,12 +63,13 @@ spikedetection(X,t*10,parameters,ratio);
 %半自动
 %Spikesinterp();
 data.idx = zeros(size(data.waveforms,1),1);
+%RL_FCM(data.features);
 
 %v = max(max(data.features2(:,3)),max(data.features2(:,5)));
 %alpha = t*10/0.9/v;
 %data.features2(:,5) = alpha*data.features2(:,5);
 
-%clustering_GMMs(data,path);
+%clustering_GMMs(path);
 
 
 %frequency_visualization(path,data,idx,parameters,USindex,ESindex);
