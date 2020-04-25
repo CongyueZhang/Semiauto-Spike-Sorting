@@ -1,5 +1,4 @@
 function frequency_visualization(path,data,idx,parameters,USindex,ESindex)
-
 %%  总体放电频率图
 %n = max(idx1);
 n_number = [];

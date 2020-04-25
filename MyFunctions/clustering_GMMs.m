@@ -1,14 +1,19 @@
-function clustering_GMMs(data,path)
-
+function clustering_GMMs(path)
+global data;
 %clustering_visualization(data.waveforms2);
 
 prompt = ['以最大值为依据分类，请输入你认为应该分出的个数：'];
 k = input(prompt);
 
-gm = fitgmdist([data.features2(:,5) data.features2(:,6)],k);
-idx = cluster(gm,[data.features2(:,5) data.features2(:,6)]);
-figure
-gscatter(data.features2(:,5),data.features2(:,6),idx)
+%{
+gm = fitgmdist(data.features,k);
+data.idx = cluster(gm,data.features);
+%figure
+%gscatter(data.features2(:,5),data.features2(:,6),idx)
+sorting_visualization(path,data);
+%}
+data.idx = kmeans(data.features,k);
+sorting_visualization(path,data);
 
 %{
 for i = 1:max(idx1)

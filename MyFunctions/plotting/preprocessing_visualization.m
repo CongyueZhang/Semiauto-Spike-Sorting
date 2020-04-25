@@ -1,4 +1,7 @@
-function preprocessing_visualization(path,X_old,X_new,parameters,USindex,ESindex)
+function preprocessing_visualization(path,X_old)
+global X;
+global parameters;
+global data;
 
 f = figure;
 
@@ -12,14 +15,14 @@ ylabel('Voltage(mV)')
 
 t = (0.0001:0.0001:parameters.length/10^4)';
 subplot(2,1,2);
-trigger_visualization(USindex,ESindex,min(X_new),max(X_new));
+trigger_visualization(data.USindex,data.ESindex,min(X),max(X));
 hold on;
-plot(t,X_new);
+plot(t,X);
 hold on;
 plot(t,parameters.ceil * ones(parameters.length,1),'magenta');
 hold on;
 plot(t,parameters.floor * ones(parameters.length,1),'magenta');
-axis([0 parameters.length/10^4 min(X_new) max(X_new)]);
+axis([0 parameters.length/10^4 min(X) max(X)]);
 title('基线校正后的信号');
 xlabel('Time(s)');
 ylabel('Voltage(mV)')
@@ -30,6 +33,5 @@ if ~exist(DirectoryPath, 'dir')
 end
 whereToStore=fullfile(DirectoryPath,'预处理.png');
 saveas(f,whereToStore);
-
 
 end
