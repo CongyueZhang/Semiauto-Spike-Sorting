@@ -1,5 +1,4 @@
-function preprocessing_visualization(path,X_old)
-global X;
+function preprocessing_visualization(path,X_old,X)
 global parameters;
 global data;
 

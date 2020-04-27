@@ -1,6 +1,5 @@
 function spikeSorting(path)
 global data;
-global X;
 global parameters;
 data.USindex = [];
 data.ESindex = [];
@@ -38,7 +37,7 @@ k = 5;
 %while(k)
     step = 1000;    %step
     [X,parameters] = preprocessing(X_old,step,parameters,k);    %调用预处理
-    preprocessing_visualization(path,X_old);    
+    preprocessing_visualization(path,X_old,X);    
 %    prompt = ['k = ' num2str(k)  '（若合适，请输入0；不合适，请输入新的k值）：'];
 %    k = input(prompt);
 %end

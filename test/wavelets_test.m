@@ -3,7 +3,7 @@ addpath('E:\超声刺激\data processing\project\matlab\Functions');
 addpath('E:\超声刺激\data processing\project\matlab\MyFunctions');
 addpath('E:\超声刺激\data processing\project\matlab\MyFunctions\plotting');
 
-path = 'E:\超声刺激\US RECORD\12_28\E1_processing\';
+path = 'E:\超声刺激\US RECORD\12_28\E4_processing\';
 
 [X_old,USindex,ESindex] = dataLoad(path);       %读取数据，详见dataLoad Function
 
@@ -30,12 +30,14 @@ ratio = 1/2;        %最低峰时间坐标的比例
 t = 10;
 spikedetection(X,t*10,parameters,ratio);
 m = size(data.waveforms,2);
-t = 1:m;
 
 threshold = min(parameters.ceil,abs(parameters.floor));
 
 %把最小值点当已知
 lct_low = 100*ratio;
+
+spike_length = size(data.waveforms,2);
+t = 0.1:0.1:m/10;
 
 for i = 1 : size(data.waveforms,1)
     
@@ -100,24 +102,32 @@ for i = 1 : size(data.waveforms,1)
     
     [pkt_high2,lct_high2] = findpeaks(smooth(lct_low+1:end),'MinPeakProminence',(maxValue-minValue)*0.15,'MinPeakHeight',(maxValue+minValue)*0.35,'NPeaks',1);
     
+    lct_high2 = lct_low + lct_high2;
+    
     pkt = [data.waveforms(i,lct_high1);data.waveforms(i,lct_low);data.waveforms(i,lct_high2)];       
     lct = [lct_high1;lct_low;lct_high2];
     peaks = [lct pkt];      %每一行是一个点，第一列是坐标，第二列是大小；
     
     
-    plot(t,data.waveforms(i,:),'-o',t,smooth,'-x');
-    legend('Original Data','Smoothed Data')
+    %plot(t,data.waveforms(i,:),'-o',t,smooth,'-x');
+    %legend('Original Data','Smoothed Data')
+    
+    plot(t,data.waveforms(i,:),'-o');
     
     hold on;
-    plot(peaks(:,1),peaks(:,2),'o','MarkerSize',12,'MarkerEdgeColor','red')
+    plot(peaks(:,1)/10,peaks(:,2),'o','MarkerFaceColor','red');
     
     
-    title('原始噪声信号');  
+    title('波形图');  
+    xlabel('Time(ms)');
+    ylabel('Voltage(mV)')
+
     hold on;
     plot(t,parameters.ceil * ones(m,1),'magenta');
     hold on;
     plot(t,parameters.floor * ones(m,1),'magenta');
     hold on;
+    axis([0 m/10 min(data.waveforms(i,:)) max(data.waveforms(i,:))]); 
     pause;
     
 end
