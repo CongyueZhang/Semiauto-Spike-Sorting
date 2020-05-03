@@ -3,7 +3,7 @@ addpath('E:\超声刺激\data processing\project\matlab\Functions');
 addpath('E:\超声刺激\data processing\project\matlab\MyFunctions');
 addpath('E:\超声刺激\data processing\project\matlab\MyFunctions\plotting');
 
-path = 'E:\超声刺激\US RECORD\12_28\E4_processing\';
+path = 'E:\超声刺激\US RECORD\12_28\E1_processing\';
 
 [X_old,USindex,ESindex] = dataLoad(path);       %读取数据，详见dataLoad Function
 
@@ -100,7 +100,7 @@ for i = 1 : size(data.waveforms,1)
     
     [pkt_high1,lct_high1] = findpeaks(smooth(1:lct_low),'MinPeakProminence',(maxValue-minValue)*0.04,'NPeaks',1);
     
-    [pkt_high2,lct_high2] = findpeaks(smooth(lct_low+1:end),'MinPeakProminence',(maxValue-minValue)*0.15,'MinPeakHeight',(maxValue+minValue)*0.35,'NPeaks',1);
+    [pkt_high2,lct_high2] = findpeaks(smooth(lct_low+1:end),'MinPeakProminence',(maxValue-minValue)*0.15,'MinPeakHeight',(maxValue-minValue)*0.35,'NPeaks',1);
     
     lct_high2 = lct_low + lct_high2;
     
@@ -108,11 +108,11 @@ for i = 1 : size(data.waveforms,1)
     lct = [lct_high1;lct_low;lct_high2];
     peaks = [lct pkt];      %每一行是一个点，第一列是坐标，第二列是大小；
     
+    hold on;
+    plot(t,data.waveforms(i,:),'-o');   
     
-    %plot(t,data.waveforms(i,:),'-o',t,smooth,'-x');
-    %legend('Original Data','Smoothed Data')
-    
-    plot(t,data.waveforms(i,:),'-o');
+    hold on;
+    plot(t,smooth,'-x');
     
     hold on;
     plot(peaks(:,1)/10,peaks(:,2),'o','MarkerFaceColor','red');
@@ -127,6 +127,8 @@ for i = 1 : size(data.waveforms,1)
     hold on;
     plot(t,parameters.floor * ones(m,1),'magenta');
     hold on;
+    
+    legend('Original Data','Smoothed Data','FeaturePoints','threshold','threshold')
     axis([0 m/10 min(data.waveforms(i,:)) max(data.waveforms(i,:))]); 
     pause;
     

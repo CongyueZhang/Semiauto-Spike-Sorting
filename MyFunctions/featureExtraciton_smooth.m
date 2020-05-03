@@ -9,7 +9,8 @@ for i = 1 : size(data.waveforms,1)
     
     data.features(i,3) = data.waveforms(i,lct_low);
 
-    [pkt_high1,lct_high1] = findpeaks(smooth(1:lct_low),'MinPeakProminence',(maxValue-minValue)*0.04,'NPeaks',1);
+    [pkt_high1,lct_high1] = findpeaks(smooth(1:lct_low),...
+        'MinPeakProminence',(maxValue-minValue)*0.04,'NPeaks',1);
     
     if ~isempty(lct_high1)
         data.features(i,1) = lct_high1;
@@ -36,7 +37,11 @@ for i = 1:size(data.features,2)
         mu = mean(data.features(index,i));
         data.features(:,i) = bsxfun(@minus, data.features(:,i), mu);
         sigma = std(data.features(index,i));
+        if mod(i,2)
         data.features(:,i) = bsxfun(@rdivide, data.features(:,i), sigma);
+        else
+            data.features(:,i) = bsxfun(@rdivide, data.features(:,i), sigma) * 2;
+        end
     end
 end
     
