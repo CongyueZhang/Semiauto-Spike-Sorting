@@ -21,6 +21,7 @@ path = 'E:\超声刺激\US RECORD\12_28\E1_processing\';
 
 warning('off','signal:findpeaks:largeMinPeakHeight');
 
+d.Message = 'data Loading ...';
 [X_old,data.USindex,data.ESindex] = dataLoad(path);       %读取数据，详见dataLoad Function
 
 
@@ -32,7 +33,7 @@ warning('off','signal:findpeaks:largeMinPeakHeight');
 %% ================== Part 1: Preprocessing ===================
 
 fprintf('\n\nPreprocessing Loading ...\n');
-d.Title = 'Preprocessing Loading ...';
+d.Message = 'Preprocessing ...';
 k = 5;
 
 %while(k)
@@ -45,7 +46,7 @@ k = 5;
 
 %% ================== Part 2: Spikes detection ===================
 fprintf('\n\nSpikes detectiong Loading ...\n');
-d.Title = 'Spikes detectiong Loading ...';
+d.Message = 'Spikes detectiong ...';
 t = 10;              %spike的长度，单位ms
 ratio = 1/2;        %最高峰时间坐标的比例 
 
@@ -70,8 +71,8 @@ data.idx = zeros(size(data.waveforms,1),1);
 %alpha = t*10/0.9/v;
 %data.features2(:,5) = alpha*data.features2(:,5);
 
+d.Message = 'Clustering ...';
 clustering_GMMs();
-d.Title = 'Clustering Loading ...';
 
 
 %frequency_visualization(path,data,idx,parameters,USindex,ESindex);
