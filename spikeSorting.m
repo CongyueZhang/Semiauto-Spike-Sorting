@@ -15,9 +15,9 @@ addpath('E:\³¬Éù´Ì¼¤\data processing\project\matlab\MyFunctions');
 addpath('E:\³¬Éù´Ì¼¤\data processing\project\matlab\MyFunctions\plotting');
 
 
-%path = [path '\'];
+path = [path '\'];
 
-path = 'E:\³¬Éù´Ì¼¤\US RECORD\12_28\E1_processing\';
+%path = 'E:\³¬Éù´Ì¼¤\US RECORD\12_28\E1_processing\';
 
 warning('off','signal:findpeaks:largeMinPeakHeight');
 
@@ -71,6 +71,7 @@ data.idx = zeros(size(data.waveforms,1),1);
 %alpha = t*10/0.9/v;
 %data.features2(:,5) = alpha*data.features2(:,5);
 
+%ÔÝÊ±×¢ÊÍ
 d.Message = 'Clustering ...';
 clustering_GMMs();
 
