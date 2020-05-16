@@ -1,3 +1,3 @@
-a = [1 3 4 5 7]
-b = find(a == 8)
-c = isempty(b)
+ratio = 0.5;
+a = 1;
+b = int32(ratio*a)
