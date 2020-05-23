@@ -1,4 +1,5 @@
 function frequency_visualization(path,data,length,Clusters2draw)
+global colors;
 %%  总体放电频率图
 %n = max(idx1);
 step = 1;   
@@ -15,7 +16,7 @@ for i = 0.001:step:length/10^4-step
 end
 trigger_visualization(data.USindex,data.ESindex,0,max(n_number));
 hold on;
-plot(t,n_number,'LineWidth',1.5);
+plot(t,n_number,'LineWidth',1.5,'Color','#0072BD');
 axis([0 length/10^4 0 max(n_number)]);
 xlabel('放电频率图（次/s）');
 
@@ -25,7 +26,7 @@ xlabel('放电频率图（次/s）');
 else
 
 n = size(Clusters2draw,1);
-colors = distinguishable_colors(n,'w');
+
 spikes_length = size(data.waveforms,2);
 for i = 1:n
     thisIndex = find(data.idx == Clusters2draw(i));
@@ -36,7 +37,7 @@ for i = 1:n
     end
     f = figure;
     subplot(2,1,1);
-    plot(data.waveforms(thisIndex,:)','color',colors(i,:));
+    plot(data.waveforms(thisIndex,:)','color',colors(Clusters2draw(i),:));
     axis([0 spikes_length min(min(data.waveforms(thisIndex,:))) max(max(data.waveforms(thisIndex,:)))]);
     subplot(2,1,2);
     frequency = n_number/step;

@@ -6,7 +6,7 @@ f = figure;
 
 t = (0.0001:0.0001:size(X_old,1)/10^4)';
 subplot(2,1,1); 
-plot(t,X_old);
+plot(t,X_old,'color','#0072BD');
 axis([0 parameters.length/10^4 min(X_old) max(X_old)]);
 title('Ô­Ê¼ÐÅºÅ');
 xlabel('Time(s)');
@@ -16,7 +16,7 @@ t = (0.0001:0.0001:parameters.length/10^4)';
 subplot(2,1,2);
 trigger_visualization(data.USindex,data.ESindex,min(X),max(X));
 hold on;
-plot(t,X);
+plot(t,X,'color','#0072BD');
 hold on;
 plot(t,parameters.ceil * ones(parameters.length,1),'magenta');
 hold on;

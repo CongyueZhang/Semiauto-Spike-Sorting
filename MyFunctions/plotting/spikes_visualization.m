@@ -6,7 +6,7 @@ global data;
 global X;
 figure;
 t = (0.0001:0.0001:parameters.length/10^4);
-plot(t,X);
+plot(t,X,'color','#0072BD');
 hold on;
 plot(t,parameters.ceil * ones(parameters.length,1),'magenta');
 hold on;

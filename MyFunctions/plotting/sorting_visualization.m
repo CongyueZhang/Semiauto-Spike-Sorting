@@ -1,9 +1,9 @@
 function sorting_visualization(path,data)
+global colors
 f = figure;
 spikes_length = size(data.waveforms,1);
 n = max(data.idx);
 hold on;
-colors = distinguishable_colors(n,'w');
 
 for i = 1:n
     n_index = data.idx == i;
