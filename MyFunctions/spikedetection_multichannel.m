@@ -11,6 +11,9 @@ i = (1+ratio) * t;
 end_index = parameters.length - 1 - (1+ratio)*t;
 flag = 1;
 
+%多通道
+waveforms = [];
+spiketimes = [];
 
 %阈值搜索
 while i < end_index
@@ -18,7 +21,10 @@ while i < end_index
         firstIndex_min = i - int32(ratio*t);
         lastIndex_min = i + int32(ratio*t);
         
-        if ~isempty(data.spiketimes)||~isempty(data.abnormalSpiketimes)    %Overlapping
+        %单通道
+        %if ~isempty(data.spiketimes)||~isempty(data.abnormalSpiketimes)    %Overlapping
+        %多通道
+        if ~isempty(spiketimes)||~isempty(data.abnormalSpiketimes)
             %{
             LastSpikeIndex = data.spiketimes(end,end);
             if firstIndex < LastSpikeIndex
@@ -27,10 +33,16 @@ while i < end_index
             end
             %}
             try
-                [LastSpikeIndex,flag] = max([data.abnormalSpiketimes(end,end) data.spiketimes(end,end)+int32(ratio*t)]);
+                %单通道
+                %[LastSpikeIndex,flag] = max([data.abnormalSpiketimes(end,end) data.spiketimes(end,end)+int32(ratio*t)]);
+                %多通道
+                [LastSpikeIndex,flag] = max([data.abnormalSpiketimes(end,end) spiketimes(end,end)+int32(ratio*t)]);
             catch
                 if isempty(data.abnormalSpiketimes)
-                    LastSpikeIndex = data.spiketimes(end,end)+int32(ratio*t);
+                    %单通道
+                    %LastSpikeIndex = data.spiketimes(end,end)+int32(ratio*t);
+                    %多通道
+                    LastSpikeIndex = spiketimes(end,end)+int32(ratio*t);
                     flag = 2;
                 else
                     LastSpikeIndex = data.abnormalSpiketimes(end,end);
@@ -48,8 +60,12 @@ while i < end_index
 
                 
                 if flag == 2
-                    data.waveforms(end,:) = [];
-                    data.spiketimes(end,:) = [];
+                    %单通道
+                    %data.waveforms(end,:) = [];
+                    %data.spiketimes(end,:) = [];
+                    %多通道
+                    waveforms(end,:) = [];
+                    spiketimes(end,:) = [];
                 end
                 flag = 1;
                 i = lastIndex_min + 1;
@@ -65,7 +81,10 @@ while i < end_index
         firstIndex = min_index - int32(ratio*t);           
         lastIndex = min_index + int32(ratio*t);
         
-        if ~isempty(data.spiketimes)||~isempty(data.abnormalSpiketimes)    %Overlapping
+        %单通道
+        %if ~isempty(data.spiketimes)||~isempty(data.abnormalSpiketimes)    %Overlapping
+        %多通道
+        if ~isempty(spiketimes)||~isempty(data.abnormalSpiketimes)
             %{
             LastSpikeIndex = data.spiketimes(end,end);
             if firstIndex < LastSpikeIndex
@@ -75,10 +94,16 @@ while i < end_index
             %}
             
             try
-                [LastSpikeIndex,flag] = max([data.abnormalSpiketimes(end,end) data.spiketimes(end,end)+int32(ratio*t)]);
+                %单通道
+                %[LastSpikeIndex,flag] = max([data.abnormalSpiketimes(end,end) data.spiketimes(end,end)+int32(ratio*t)]);
+                %多通道
+                [LastSpikeIndex,flag] = max([data.abnormalSpiketimes(end,end) spiketimes(end,end)+int32(ratio*t)]);
             catch
                 if isempty(data.abnormalSpiketimes)
-                    LastSpikeIndex = data.spiketimes(end,end)+int32(ratio*t);
+                    %单通道
+                    %LastSpikeIndex = data.spiketimes(end,end)+int32(ratio*t);
+                    %多通道
+                    LastSpikeIndex = spiketimes(end,end)+int32(ratio*t);
                     flag = 2;
                 else
                     LastSpikeIndex = data.abnormalSpiketimes(end,end);
@@ -97,8 +122,12 @@ while i < end_index
 
                 
                 if flag == 2
-                    data.waveforms(end,:) = [];
-                    data.spiketimes(end,:) = [];
+                    %单通道
+                    %data.waveforms(end,:) = [];
+                    %data.spiketimes(end,:) = [];
+                    %多通道
+                    waveforms(end,:) = [];
+                    spiketimes(end,:) = [];
                 end
                 flag = 0;
                 i = lastIndex + 1;
@@ -112,13 +141,22 @@ while i < end_index
         
         spikeIndex = min_index;     
         
-        data.spiketimes = [data.spiketimes;spikeIndex];
-        data.waveforms = [data.waveforms;spike'];
+        %单通道
+        %data.spiketimes = [data.spiketimes;spikeIndex];
+        %data.waveforms = [data.waveforms;spike'];
+        
+        %多通道
+        spiketimes = [spiketimes;spikeIndex];
+        waveforms = [waveforms;spike'];
         
         i = lastIndex + 1;
     end
     
     i = i+1;
 end
+
+%多通道
+data.waveforms{1,1} = waveforms;
+data.spiketimes{1,1} = spiketimes;
 
 end

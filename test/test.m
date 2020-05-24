@@ -1,2 +1,3 @@
-x=3.1415;
-round(x,1)
+ratio = 0.5;
+a = 1;
+b = int32(ratio*a)

@@ -1,4 +1,4 @@
-function spikeSorting(path)
+function X = spikeSorting(path,d)
 global data;
 global parameters;
 data.USindex = [];
@@ -21,6 +21,7 @@ path = [path '\'];
 
 warning('off','signal:findpeaks:largeMinPeakHeight');
 
+d.Message = 'data Loading ...';
 [X_old,data.USindex,data.ESindex] = dataLoad(path);       %读取数据，详见dataLoad Function
 
 
@@ -32,6 +33,7 @@ warning('off','signal:findpeaks:largeMinPeakHeight');
 %% ================== Part 1: Preprocessing ===================
 
 fprintf('\n\nPreprocessing Loading ...\n');
+d.Message = 'Preprocessing ...';
 k = 5;
 
 %while(k)
@@ -44,6 +46,7 @@ k = 5;
 
 %% ================== Part 2: Spikes detection ===================
 fprintf('\n\nSpikes detectiong Loading ...\n');
+d.Message = 'Spikes detectiong ...';
 t = 10;              %spike的长度，单位ms
 ratio = 1/2;        %最高峰时间坐标的比例 
 
@@ -68,7 +71,9 @@ data.idx = zeros(size(data.waveforms,1),1);
 %alpha = t*10/0.9/v;
 %data.features2(:,5) = alpha*data.features2(:,5);
 
-%clustering_GMMs(path);
+%暂时注释
+d.Message = 'Clustering ...';
+clustering_GMMs();
 
 
 %frequency_visualization(path,data,idx,parameters,USindex,ESindex);
