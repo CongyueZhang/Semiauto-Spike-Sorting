@@ -1,3 +1,2 @@
-ratio = 0.5;
-a = 1;
-b = int32(ratio*a)
+str = '19d28023.abf';
+contains(str,'_')
