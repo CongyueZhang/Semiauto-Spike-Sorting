@@ -1,8 +1,12 @@
-function [X,USindex,ESindex] = dataLoad(path)
+function X = dataLoad(path)
+global parameters;
+global data;
 
+parameters.channel =[];
+path = [path '\'];
 X = cell(1,8);
-USindex = [];
-ESindex = [];
+data.USindex = [];
+data.ESindex = [];
 files = dir(fullfile(path,'*.abf'));
 length = 0;     %记录当前信号长度（应对某一通道中途关闭的情况）
 
@@ -24,8 +28,21 @@ sampleRate = info.si;          %保持抽样率一致，暂时未补齐相关代码。
 for file = files'                                                       %遍历path目录下的.abf文件
     [abf,si,h] = abfload(strcat(path,file.name),'channels','a');  
     length = length + h.lActualAcqLength;
-    if contains(str,'_')
+    
+    % 插值
+    t1 = (1 : si/sampleRate : si/sampleRate*size(abf,1))';
+    t2 = (1:1:si/sampleRate*size(abf,1))';
+    
+    abf_inter = zeros(size(t2,1),size(h.recChNames,1));
+    for i = 1:size(h.recChNames,1)
+        %插值
+        abf_inter(:,i) = interp1(t1,abf(:,i),t2,'spline');
+    end
+    abf = abf_inter;
+    
+    if contains(file.name,'_')
         file_info = split(file.name,'_');
+        
         if strcmp(char(file_info(2,1)),'US')
             flag = 'US';
             ChNumber = size(h.recChNames,1)-1;
@@ -38,12 +55,17 @@ for file = files'                                                       %遍历pat
         flag = 'gapfree';
         ChNumber = size(h.recChNames,1);
     end
-    
+
     for i = 1:ChNumber
         ChName = split(h.recChNames{i},' ');
-        X{ChName{2}} = [X{ChName{2}};abf(i)];
-        if size(X{ChName{2}})<length
-            X{ChName{2}(end+1:length)} = zeros(length-size(X{ChName{2}}),1);
+        ChIdx = str2num(ChName{2}) + 1;
+        if ~sum(contains(string(parameters.channel),int2str(ChIdx)))
+            parameters.channel = [parameters.channel ChIdx];
+        end
+        
+        X{ChIdx} = [X{ChIdx};abf(:,i)];
+        if size(X{ChIdx},1)<length
+            X{ChIdx}(end+1:length) = zeros(length-size(X{ChIdx},1),1);
         end
     end
     
@@ -55,18 +77,18 @@ for file = files'                                                       %遍历pat
         abf = interp1(t1,abf,t2,'spline');
         %}
         
-        USperiod = find(abf(end)>0.5);              %若插值，find前要乘以一个倍数
-        tempUSIndex = size(X,1) + USperiod;         %算出这些点在总数据中的坐标
+        USperiod = find(abf(:,end)>0.5);              %若插值，find前要乘以一个倍数
+        tempUSIndex = length + USperiod;         %算出这些点在总数据中的坐标
         %StartIndex = min(StartIndex);
-        USindex = [USindex tempUSIndex];
+        data.USindex = [data.USindex tempUSIndex];
     end
     
     if strcmp(flag,'ES')
-        %USindex = [USindex;size(X_old,1)+1000;]; 
-        ESperiod = find(abf(end)>0.1, 1 );
-        tempESindex = size(X,1) + ESperiod;
-        ESindex = [ESindex tempESindex];
-        continue
+        %data.USindex = [data.USindex;size(X_old,1)+1000;]; 
+        ESperiod = find(abf(end,i)>0.1, 1 );
+        tempESindex = length + ESperiod;
+        data.ESindex = [data.ESindex tempESindex];
+        continue;
     end
     
     %{
@@ -83,7 +105,7 @@ for file = files'                                                       %遍历pat
             %if size(tempUSIndex,1)<1500
                 %tempUSIndex = tempUSIndex(1:1010);
             %end
-            USindex = [USindex tempUSIndex];
+            data.USindex = [data.USindex tempUSIndex];
         end
         
         abf = t1;
@@ -97,5 +119,5 @@ for file = files'                                                       %遍历pat
     %}
       
 end
-
+parameters.length = length;
 end
