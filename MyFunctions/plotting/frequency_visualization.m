@@ -1,53 +1,60 @@
-function frequency_visualization(path,data,length,Clusters2draw)
+function frequency_visualization(length,Clusters2draw)
 global colors;
+global ch;
+global data;
+global data_path;
 %%  总体放电频率图
 %n = max(idx1);
 step = 1;   
 t = 0.001:step:length/10^4-step;
 
+DirectoryPath = fullfile(data_path, ['Result\Image\ch' num2str(ch-1)]);
+
 if Clusters2draw == 0
     
 n_number = [];
-figure;
+f = figure;
    
 for i = 0.001:step:length/10^4-step
-    n_index = find(data.spiketimes/10^4>=i & data.spiketimes/10^4<i+step);
+    n_index = find(data.spiketimes{ch}/10^4>=i & data.spiketimes{ch}/10^4<i+step);
     n_number = [n_number;size(n_index,1)];
 end
 trigger_visualization(data.USindex,data.ESindex,0,max(n_number));
 hold on;
 plot(t,n_number,'LineWidth',1.5,'Color','#0072BD');
-axis([0 length/10^4 0 max(n_number)]);
+%axis([0 length/10^4 0 max(n_number)]);
+axis tight;
 xlabel('放电频率图（次/s）');
 
-
-
+whereToStore=fullfile(DirectoryPath,'all''s frequency.png');
+saveas(f,whereToStore);
 %% 分类后的放电频率图
 else
 
 n = size(Clusters2draw,1);
 
-spikes_length = size(data.waveforms,2);
+%spikes_length = size(data.waveforms{ch},2);
 for i = 1:n
-    thisIndex = find(data.idx == Clusters2draw(i));
+    thisIndex = find(data.idx{ch} == Clusters2draw(i));
     n_number = [];
+    f = figure;
     for j = 0.001:step:length/10^4-step
-        n_index = find(data.spiketimes(thisIndex)/10^4>=j & data.spiketimes(thisIndex)/10^4<j+step);
+        n_index = find(data.spiketimes{ch}(thisIndex)/10^4>=j & data.spiketimes{ch}(thisIndex)/10^4<j+step);
         n_number = [n_number;size(n_index,1)];
     end
-    f = figure;
     subplot(2,1,1);
-    plot(data.waveforms(thisIndex,:)','color',colors(Clusters2draw(i),:));
-    axis([0 spikes_length min(min(data.waveforms(thisIndex,:))) max(max(data.waveforms(thisIndex,:)))]);
+    plot(data.waveforms{ch}(thisIndex,:)','color',colors(Clusters2draw(i),:));
+    %axis([0 spikes_length min(min(data.waveforms{ch}(thisIndex,:))) max(max(data.waveforms{ch}(thisIndex,:)))]);
+    axis tight;
     subplot(2,1,2);
     frequency = n_number/step;
     plot(t,frequency);
     trigger_visualization(data.USindex,data.ESindex,0,max(frequency));
-    axis([0 length/10^4 0 max(frequency)]);
+    %axis([0 length/10^4 0 max(frequency)]);
+    axis tight;
     xlabel('放电频率图（次/s）');
 
-    DirectoryPath =[path '/Result/Image'];
-    whereToStore=fullfile(DirectoryPath,['第' num2str(Clusters2draw(i)-1) '根纤维的放电频率.png']);
+    whereToStore=fullfile(DirectoryPath,['Cluster' num2str(Clusters2draw(i)) '''s frequency.png']);
     saveas(f,whereToStore);
 end
 
@@ -56,9 +63,9 @@ end
     %延时标注
     %for j = 1:size(data.USindex,2)
     %    US_firstIndex = data.USindex(1,j);
-    %    first_index1 = find(data.spiketimes(thisIndex)>US_firstIndex);
+    %    first_index1 = find(data.spiketimes{ch}(thisIndex)>US_firstIndex);
     %    first_index2 = min(first_index1);
-    %    first_index = double(data.spiketimes(thisIndex(first_index2)))/10^4;
+    %    first_index = double(data.spiketimes{ch}(thisIndex(first_index2)))/10^4;
     %    if isempty(first_index)
     %        continue;
     %    end
