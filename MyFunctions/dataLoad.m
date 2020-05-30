@@ -4,7 +4,7 @@ global data;
 
 parameters.channel =[];
 path = [path '\'];
-X = cell(1,8);
+X = cell(1,9);
 data.USindex = [];
 data.ESindex = [];
 files = dir(fullfile(path,'*.abf'));
@@ -50,6 +50,10 @@ for file = files'                                                       %±éÀúpat
         if strcmp(char(file_info(2,1)),'ES')
             flag = 'ES';
             ChNumber = size(h.recChNames,1)-1;
+        end
+        if strcmp(char(file_info(2,1)),'gapfree.abf')
+            flag = 'gapfree';
+            ChNumber = size(h.recChNames,1);
         end
     else
         flag = 'gapfree';
