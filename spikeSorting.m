@@ -2,19 +2,19 @@ function X = spikeSorting(d,X_old)
 global data;
 global ch;
 %读取数据
-addpath('E:\超声刺激\data processing\project\matlab\Functions');
-addpath('E:\超声刺激\data processing\project\matlab\MyFunctions');
-addpath('E:\超声刺激\data processing\project\matlab\MyFunctions\plotting');
+addpath('C:\Users\RenDong\Desktop\data\Spike-Sorting\Functions');
+addpath('C:\Users\RenDong\Desktop\data\Spike-Sorting\MyFunctions');
+addpath('C:\Users\RenDong\Desktop\data\Spike-Sorting\MyFunctions\plotting');
 
 warning('off','signal:findpeaks:largeMinPeakHeight');
 
 %多通道
-data.waveforms = cell(1,8);            %每一行是一个waveforms； size(data.waveforms,1) = waveforms个数，size(data.waveforms,2) = 每个waveforms的点数
-data.spiketimes = cell(1,8);
-data.abnormalWaveforms = cell(1,8);
-data.abnormalSpiketimes = cell(1,8);
-data.features = cell(1,8);
-data.idx = cell(1,8);
+data.waveforms = cell(1,9);            %每一行是一个waveforms； size(data.waveforms,1) = waveforms个数，size(data.waveforms,2) = 每个waveforms的点数
+data.spiketimes = cell(1,9);
+data.abnormalWaveforms = cell(1,9);
+data.abnormalSpiketimes = cell(1,9);
+data.features = cell(1,9);
+data.idx = cell(1,9);
 %% ================== Part 1: Preprocessing ===================
 fprintf('\n\nPreprocessing Loading ...\n');
 d.Message = 'Preprocessing ...';
@@ -44,5 +44,6 @@ featureExtraciton_smooth(t*10,ratio);
 
 d.Message = 'Clustering ...';
 clustering_GMMs();
+% ClusterRL_FCM(data.features);
 
 end
