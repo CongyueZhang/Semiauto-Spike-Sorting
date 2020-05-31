@@ -3,10 +3,12 @@ global parameters;
 global data;
 
 parameters.channel =[];
+parameters.name=[];
 path = [path '\'];
 X = cell(1,9);
-data.USindex = [];
-data.ESindex = [];
+% data.USindex = [];
+% data.ESindex = [];
+data.trigger_Index=cell(0);
 files = dir(fullfile(path,'*.abf'));
 length = 0;     %记录当前信号长度（应对某一通道中途关闭的情况）
 
@@ -30,7 +32,7 @@ for file = files'                                                       %遍历pat
     length = length + h.lActualAcqLength;
     
     % 插值
-    t1 = (1 : si/sampleRate : si/sampleRate*size(abf,1))';
+        t1 = (1 : si/sampleRate : si/sampleRate*size(abf,1))';
     t2 = (1:1:si/sampleRate*size(abf,1))';
     
     abf_inter = zeros(size(t2,1),size(h.recChNames,1));
@@ -40,27 +42,34 @@ for file = files'                                                       %遍历pat
     end
     abf = abf_inter;
     
-    if contains(file.name,'_')
+    if contains(file.name,'_')      %如果文件名包含“_”
         file_info = split(file.name,'_');
         
-        if strcmp(char(file_info(2,1)),'US')
+%         if strcmp(char(file_info(2,1)),'US')
+         if contains(file_info(2,1),'US')
             flag = 'US';
+             d=split(file_info(2,1),'.');
+             parameters.name=[parameters.name d(1,1)];
             ChNumber = size(h.recChNames,1)-1;
         end
-        if strcmp(char(file_info(2,1)),'ES')
+%         if strcmp(char(file_info(2,1)),'ES')
+        if contains(file_info(2,1),'ES')
+             d=split(file_info(2,1),'.');
+             parameters.name=[parameters.name d(1,1)];
             flag = 'ES';
             ChNumber = size(h.recChNames,1)-1;
         end
-        if strcmp(char(file_info(2,1)),'gapfree.abf')
+%        if strcmp(char(file_info(2,1)),'gapfree.abf')
+        if contains(file_info(2,1),'gapfree')
             flag = 'gapfree';
             ChNumber = size(h.recChNames,1);
         end
-    else
+    else        %如果文件名不包含_
         flag = 'gapfree';
         ChNumber = size(h.recChNames,1);
     end
 
-    for i = 1:ChNumber
+    for i = 1:ChNumber  %%通道
         ChName = split(h.recChNames{i},' ');
         ChIdx = str2num(ChName{2}) + 1;
         if ~sum(contains(string(parameters.channel),int2str(ChIdx)))
@@ -84,14 +93,16 @@ for file = files'                                                       %遍历pat
         USperiod = find(abf(:,end)>0.5);              %若插值，find前要乘以一个倍数
         tempUSIndex = length + USperiod;         %算出这些点在总数据中的坐标
         %StartIndex = min(StartIndex);
-        data.USindex = [data.USindex tempUSIndex];
+%         data.USindex = [data.USindex tempUSIndex];
+        data.trigger_Index=[data.trigger_Index tempUSIndex];
     end
     
     if strcmp(flag,'ES')
         %data.USindex = [data.USindex;size(X_old,1)+1000;]; 
-        ESperiod = find(abf(end,i)>0.1, 1 );
-        tempESindex = length + ESperiod;
-        data.ESindex = [data.ESindex tempESindex];
+%         ESperiod = find(abf(end,i)>0.1, 1 );
+        tempESindex = [length + 1:length + 30];
+%         data.ESindex = [data.ESindex tempESindex];
+       data.trigger_Index = [data.trigger_Index tempESindex'];
         continue;
     end
     
