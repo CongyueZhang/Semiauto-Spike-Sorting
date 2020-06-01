@@ -3,7 +3,7 @@
 # 必读
 请严格遵守【文件命名规则】，若文件中含有高电平Trigger信号，请以`_`下划线加上刺激后缀，并保证文件名中仅有一个`_`。
 # 界面
-![在这里插入图片描述](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/interface.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![image](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/interface.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 
 ① Data Path文本输入框：在此处输入期望处理的数据的路径
 ② Load按键：按下后加加载①中路径下的数据
@@ -37,24 +37,24 @@
  - 刺激类型后缀只需要**包含**US或ES即可，例如：US 0，US^180，US node等 都可以。 刺激后缀的内容其后将会显示在某些功能图像上。
  - 除非是加刺激后缀，否则请不要在文件名中出现`_`下划线
  - gapfree文件不需要加后缀（不过即使加了_gapree后缀也不会报错）
-![.abf命名规则](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/name.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![image](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/name.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 ![刺激后缀显示](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/preprocessing.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 ### .mat文件
 该软件处理完数据后，会自动在相应路径生成`data.mat`文件，该文件名称与内容请不要更改。
-![.mat文件](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/DataFile.png)
+![image](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/DataFile.png)
 # 自动处理过程
 点击`Load`按钮读取数据后，`Channel n`下拉框中会出现已有的通道，选中期望处理的通道后，点击`View Channel n`按钮，若该通道的数据从未被处理过，该程序将会对该通道的数据进行自动处理（滤波、峰电位检测、特征提取、聚类）。
-![Load数据后的界面](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/ChannelNDropDown.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![Load数据后的界面](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/ChannelNDropDown.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 处理后的结果会被保存下来，若该通道的数据**已被**处理过，则不会进行重复自动处理，会直接显示出以往的处理结果。
 # 手动调整过程
 ## 修改
-![自动处理结束后](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/AfterRunning.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![自动处理结束后](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/AfterRunning.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 
  1. 首先，找到期望修改的Cluster。例如：图中蓝色峰电位聚类似乎有问题，则可从右上角标签中读取到该聚类为Cluster 1。
  2. 在`Cluster x多选框`中选中Cluster 1，在`Function单选框`中选中`Show x`，点击`Run Funcition`按键，此时右侧图像中只显示出选中的Cluster 1。
-![在这里插入图片描述](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/ShowX.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/ShowX.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
  3. 点击`Select Cluster`按键后，可用鼠标在右侧图框中画出矩形。调整矩形大小位置，使其只包括期望的峰电位。
- ![](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/SelectX.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70) 
+ ![](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/SelectX.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70) 
  4. 接下来有两个选择：
  	① 点击`Add new Cluster`按键将选中的峰电位添加到新的聚类
  	②点击`Add to Cluster x`按键将其添加到`Cluster x选择框`中选中的Cluster中（如添加到Unsorted Spikes）
@@ -83,13 +83,13 @@
  - all's frequency：显示出峰电位的总放电频率
 # 存储
 处理文件时，该软件会自动在数据路径中新建`Result`文件夹
-![在这里插入图片描述](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/ResultFile.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/ResultFile.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 `Result`文件夹中含有`Image`与`Data`文件
-![在这里插入图片描述](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/inResult.png)
+![在这里插入图片描述](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/inResult.png)
 ## Image文件夹
 `Image`文件夹中含有（多个）通道文件夹。处理过程中，生成的各种功能图片会自动保存到对应通道的路径，且覆盖以往同名称的图片。（例如，前后执行过两次观看Cluster 5放电频率的功能图，那么，只有后一次的功能图会被保存下来）
-![通道文件夹](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/ch0File.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
-![功能图片](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/inCh0File.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![通道文件夹](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/ch0File.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
+![功能图片](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/inCh0File.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 ## Data文件夹
 在处理结束，软件关闭的时候，会自动将本次处理后的数据，保存在Data文件夹中。此后可直接Load此data.mat文件进行查看与处理。处理后会以相同的方式在该路径下生成新的Result等文件夹。
-![Data文件夹](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/images/DataFile.png)
+![Data文件夹](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/DataFile.png)
