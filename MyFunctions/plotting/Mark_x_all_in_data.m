@@ -17,7 +17,7 @@ plot(t,parameters.ceil * ones(parameters.length,1),'magenta');
 hold on;
 plot(t,parameters.floor * ones(parameters.length,1),'magenta');
 hold on;
-trigger_visualization(data.USindex,data.ESindex,min(X{ch}),max(X{ch}));
+trigger_visualization(data.trigger_Index,min(X{ch}),max(X{ch}));
 
 if isempty(data.spiketimes_all{ch})
     data.spiketimes_all{ch} = zeros(size(data.waveforms{ch},1),size(data.waveforms{ch},2));

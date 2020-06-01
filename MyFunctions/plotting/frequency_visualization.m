@@ -19,7 +19,7 @@ for i = 0.001:step:length/10^4-step
     n_index = find(data.spiketimes{ch}/10^4>=i & data.spiketimes{ch}/10^4<i+step);
     n_number = [n_number;size(n_index,1)];
 end
-trigger_visualization(data.USindex,data.ESindex,0,max(n_number));
+trigger_visualization(data.trigger_Index,0,max(n_number));
 hold on;
 plot(t,n_number,'LineWidth',1.5,'Color','#0072BD');
 %axis([0 length/10^4 0 max(n_number)]);
@@ -49,7 +49,7 @@ for i = 1:n
     subplot(2,1,2);
     frequency = n_number/step;
     plot(t,frequency);
-    trigger_visualization(data.USindex,data.ESindex,0,max(frequency));
+    trigger_visualization(data.trigger_Index,0,max(frequency));
     %axis([0 length/10^4 0 max(frequency)]);
     axis tight;
     xlabel('放电频率图（次/s）');

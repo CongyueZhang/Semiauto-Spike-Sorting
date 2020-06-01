@@ -18,7 +18,7 @@ ylabel('Voltage(mV)')
 
 t = (0.0001:0.0001:parameters.length/10^4)';
 subplot(2,1,2);
-trigger_visualization(data.USindex,data.ESindex,min(X),max(X));
+trigger_visualization(data.trigger_Index,min(X),max(X));
 hold on;
 plot(t,X,'color','#0072BD');
 hold on;
