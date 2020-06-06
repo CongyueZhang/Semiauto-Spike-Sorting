@@ -1,17 +1,22 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="E:\超声刺激\data processing\project\matlab\spike_sorting.prj" location="E:\超声刺激\data processing\project\matlab" name="spike_sorting" target="target.ezdeploy.standalone" target-name="Application Compiler">
-    <param.appname>spike_sorting</param.appname>
-    <param.icon />
-    <param.icons />
+  <configuration build-checksum="1145275594" file="E:\超声刺激\data processing\project\matlab\spike_sorting.prj" location="E:\超声刺激\data processing\project\matlab" name="spike_sorting" preferred-package-location="E:\超声刺激\data processing\project\matlab\spike_sorting\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>SpikeSorting</param.appname>
+    <param.icon>${PROJECT_ROOT}\spike_sorting_resources\icon.ico</param.icon>
+    <param.icons>
+      <file>${PROJECT_ROOT}\spike_sorting_resources\icon_48.png</file>
+      <file>${PROJECT_ROOT}\spike_sorting_resources\icon_32.png</file>
+      <file>${PROJECT_ROOT}\spike_sorting_resources\icon_24.png</file>
+      <file>${PROJECT_ROOT}\spike_sorting_resources\icon_16.png</file>
+    </param.icons>
     <param.version>1.0</param.version>
-    <param.authnamewatermark />
-    <param.email />
-    <param.company />
+    <param.authnamewatermark>USST_BME</param.authnamewatermark>
+    <param.email>congyue.zhang.98@gmail.com</param.email>
+    <param.company>University of Shanghai for Sci. &amp; Tech.</param.company>
     <param.summary />
     <param.description />
     <param.screenshot />
     <param.guid />
-    <param.installpath.string>\spike_sorting\</param.installpath.string>
+    <param.installpath.string>\University of Shanghai for Sci. &amp; Tech.\SpikeSorting\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo />
     <param.install.notes />
@@ -36,14 +41,14 @@
     <param.native.matlab>false</param.native.matlab>
     <param.checkbox>false</param.checkbox>
     <param.example />
-    <param.help.text />
+    <param.help.text>Syntax 
+	  -? 
+	 
+ Input Arguments 
+	 -?  print help on how to use the application 
+	 input arguments</param.help.text>
     <unset>
-      <param.icon />
-      <param.icons />
       <param.version />
-      <param.authnamewatermark />
-      <param.email />
-      <param.company />
       <param.summary />
       <param.description />
       <param.screenshot />
@@ -73,17 +78,30 @@
       <param.native.matlab />
       <param.checkbox />
       <param.example />
-      <param.help.text />
     </unset>
     <fileset.main>
       <file>${PROJECT_ROOT}\spike_sorting.mlapp</file>
     </fileset.main>
     <fileset.resources />
     <fileset.package />
-    <fileset.depfun />
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\Functions\abfload.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\clustering_GMMs.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\dataLoad.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\distinguishable_colors.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\featureExtraciton_smooth.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\plotting\frequency_visualization.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\plotting\Mark_x_all_in_data.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\plotting\preprocessing_visualization.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\plotting\trigger_visualization.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\plotting\View_only_x_in_data.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\preprocessing.m</file>
+      <file>${PROJECT_ROOT}\MyFunctions\spikedetection.m</file>
+      <file>${PROJECT_ROOT}\spikeSorting.m</file>
+    </fileset.depfun>
     <build-deliverables>
+      <file location="${PROJECT_ROOT}\spike_sorting\for_testing" name="SpikeSorting.exe" optional="false">E:\超声刺激\data processing\project\matlab\spike_sorting\for_testing\SpikeSorting.exe</file>
       <file location="${PROJECT_ROOT}\spike_sorting\for_testing" name="splash.png" optional="false">E:\超声刺激\data processing\project\matlab\spike_sorting\for_testing\splash.png</file>
-      <file location="${PROJECT_ROOT}\spike_sorting\for_testing" name="spike_sorting.exe" optional="false">E:\超声刺激\data processing\project\matlab\spike_sorting\for_testing\spike_sorting.exe</file>
       <file location="${PROJECT_ROOT}\spike_sorting\for_testing" name="readme.txt" optional="true">E:\超声刺激\data processing\project\matlab\spike_sorting\for_testing\readme.txt</file>
     </build-deliverables>
     <workflow />
@@ -95,8 +113,8 @@
         <toolbox name="gpucoder" />
         <toolbox name="fixedpoint" />
         <toolbox name="matlabhdlcoder" />
-        <toolbox name="polyspacebugfinder" />
         <toolbox name="neuralnetwork" />
+        <toolbox name="polyspacebugfinder" />
       </toolboxes>
       <toolbox>
         <matlabcoder>
@@ -124,14 +142,14 @@
         </matlabhdlcoder>
       </toolbox>
       <toolbox>
-        <polyspacebugfinder>
-          <enabled>true</enabled>
-        </polyspacebugfinder>
-      </toolbox>
-      <toolbox>
         <neuralnetwork>
           <enabled>true</enabled>
         </neuralnetwork>
+      </toolbox>
+      <toolbox>
+        <polyspacebugfinder>
+          <enabled>true</enabled>
+        </polyspacebugfinder>
       </toolbox>
     </matlab>
     <platform>

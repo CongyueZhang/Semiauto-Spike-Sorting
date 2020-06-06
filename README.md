@@ -48,7 +48,6 @@
 处理后的结果会被保存下来，若该通道的数据**已被**处理过，则不会进行重复自动处理，会直接显示出以往的处理结果。
 # 手动调整过程
 ## 修改
-https://github.com/CongyueZhang/Semiauto-Spike-Sorting/blob/master/images/AfterRunning.png
 ![自动处理结束后](http://github.com/CongyueZhang/Semiauto-Spike-Sorting/tree/master/images/AfterRunning.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjY1MjQyMg==,size_16,color_FFFFFF,t_70)
 
  1. 首先，找到期望修改的Cluster。例如：图中蓝色峰电位聚类似乎有问题，则可从右上角标签中读取到该聚类为Cluster 1。
