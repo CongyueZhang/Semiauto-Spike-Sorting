@@ -44,6 +44,6 @@ featureExtraciton_smooth(t*10,ratio);
 
 d.Message = 'Clustering ...';
 clustering_GMMs();
-% ClusterRL_FCM(data.features);
+
 
 end
